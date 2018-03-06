@@ -176,7 +176,9 @@ void *readtasks(void *arg)
                 printf("read form command file='%s'\n",buffer);
                 #endif
 
-                //
+                /***********************
+                *    NOT Done Task 8   *
+                ************************/
                 // TO DO
                 //
                 // THE NEW COMMAND WILL BE IN "buffer"
@@ -247,7 +249,10 @@ void *dotasks(void * arg)
     // The consumer should cause the program to exit when the 'x' command is received
     while (1)
     {
-        //
+
+        /***********************
+        *    NOT Done Task 9   *
+        ************************/
         // TO DO
         //
         // Read command to perform from the bounded buffer HERE
