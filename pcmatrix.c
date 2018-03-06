@@ -35,6 +35,9 @@ int main (int argc, char * argv[])
     // Uncomment to see example operation of the dotasks() routine
     //dotasks((void *) NULL);
 
+    /******************
+    *   Task 5 Done   *
+    *******************/
     int sleepIntervalDefalt = 500; // if user dose not input duration
 
     if (argc == 2 && argv[1] >= 0)
@@ -42,6 +45,9 @@ int main (int argc, char * argv[])
         sleepIntervalDefalt = atoi(argv[1]);
     }
 
+    /**************************
+    *   Task 10 and 11 Done   *
+    ***************************/
     // To do
     // Use pthreads
     pthread_t p1;

@@ -74,9 +74,9 @@ typedef struct __task_t {
 } task_t;
 
 
-/***************
-*    Done ?    *
-***************/
+/*******************
+*    Task 3 Done   *
+********************/
 // TO DO
 // Implement sleep in ms
 void sleepms(int milliseconds)  // https://stackoverflow.com/questions/4184468/sleep-for-milliseconds
@@ -285,9 +285,9 @@ void *dotasks(void * arg)
         // exit command example
         //sprintf(task, "x");
 
-        /*************
-        *    Done    *
-        **************/
+        /*******************
+        *    Task 4 Done   *
+        ********************/
         // TO DO
         // Remove this sleep command - it is here for demonstration purposes only
         // For now this puts a 1 sec interval between repeating the same command over and over again
@@ -337,9 +337,9 @@ void *dotasks(void * arg)
             }
             case 'a':
             {
-                /***************
-                *    Done ?    *  // coppied from case 's' changed sum to avg element printout
-                ***************/
+                /******************
+                *   Task 2 Done   *  // coppied from case 's' changed sum to avg element printout
+                *******************/
                 // TO DO
                 //
                 // Implement Average Command

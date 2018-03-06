@@ -73,9 +73,9 @@ void GenMatrix(int ** matrix, const int height, const int width)
     GenMatrixType(matrix, height, width, 1);
 }
 
-/***************
- *    Done ?   *
- ***************/
+/******************
+*   Task 1 Done   *
+*******************/
 
 // TO DO
 // Implement the AvgElement function
