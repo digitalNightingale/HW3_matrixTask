@@ -48,6 +48,9 @@
 char * tasks[MAX];
 
 // Define variables for get/put routines
+/***********************************************
+*    NOT Done PUT and GET  Task 7  VARIABLES   *
+************************************************/
 
 // task data structure
 // used to capture command information
@@ -90,7 +93,7 @@ void sleepms(int milliseconds)  // https://stackoverflow.com/questions/4184468/s
 ************************************/
 
 // Implement Bounded Buffer put() here
-void put(char *value)
+void put(char *ch)
 {
 
 
