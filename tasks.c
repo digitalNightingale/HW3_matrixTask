@@ -85,9 +85,23 @@ void sleepms(int milliseconds)  // https://stackoverflow.com/questions/4184468/s
     usleep(microseconds);
 }
 
+/***********************************
+*    NOT Done PUT and GET  Task 7  *
+************************************/
+
 // Implement Bounded Buffer put() here
+void put(char *value)
+{
+
+
+}
 
 // Implement Bounded Buffer get() here
+char *get()
+{
+
+    return ;
+}
 
 // This routine continually reads the contents of the "in_dir" to look for
 // command files to process.  Commands are parsed and should be added to the
