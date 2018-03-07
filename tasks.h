@@ -24,7 +24,7 @@ void *dotasks(void *arg);
 
 typedef struct __task_t {
     char * name;
-    char * cmd;
+    char cmd;
     int row;
     int col;
     int ele;

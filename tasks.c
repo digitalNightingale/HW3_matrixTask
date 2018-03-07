@@ -29,6 +29,7 @@
 #include <pthread.h>
 #include <sys/time.h>
 #include "matrix.h"
+#include tasks.h
 
 // Maximum command filename length
 #define MAXFILENAMELEN 256
@@ -71,13 +72,13 @@ int count = 0;
 // row - number of rows
 // col - number of cols
 // ele - 1-makes every element one, 2-makes elements equal to the column number, 3 to 100- selects a random value up to 100
-typedef struct __task_t {
-    char * name;
-    char cmd;
-    int row;
-    int col;
-    int ele;
-} task_t;
+//typedef struct __task_t {
+//    char * name;
+//    char cmd;
+//    int row;
+//    int col;
+//    int ele;
+//} task_t;
 
 
 /*******************
@@ -218,7 +219,7 @@ void *readtasks(void *arg)
 
                 // First make a copy of the string in the buffer
 				char * tempCmd = malloc(sizeof(char) * MAX);
-				strcopy(tempCmd, buffer);
+				strcpy(tempCmd, buffer);
                 // Add this copy to the bounded buffer for processing by consumer threads...
                 // Use of locks and condition variables and call to put() routine...
 				pthread_mutex_lock(&mutex);
