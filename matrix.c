@@ -86,13 +86,15 @@ int AvgElement(int ** matrix, const int height, const int width)
     int ele = 0;
     int i, j;
     for (i = 0; i < height; i++)
-    for (j = 0; j < width; j++)
-    {
-        int *mm = matrix[i];
-        y = mm[j];
-        x = x + y;
-        ele++;
-    }
+	{
+		for (j = 0; j < width; j++)
+		{
+			int *mm = matrix[i];
+			y = mm[j];
+			x = x + y;
+			ele++;
+		}
+	}
     return x / ele; //1;
 }
 

@@ -24,7 +24,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <dirent.h>
-#include <unistd.h>  // for usleep()
+#include <unistd.h>  // for usleepms()
 #include <errno.h>
 #include <pthread.h>
 #include <sys/time.h>
@@ -48,9 +48,12 @@
 char * tasks[MAX];
 
 // Define variables for get/put routines
-/***********************************************
-*    NOT Done PUT and GET  Task 7  VARIABLES   *
-************************************************/
+/*******************
+*    Task 7 Done   *
+********************/
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+int count = 0;
 
 // task data structure
 // used to capture command information
@@ -95,15 +98,27 @@ void sleepms(int milliseconds)  // https://stackoverflow.com/questions/4184468/s
 // Implement Bounded Buffer put() here
 void put(char *ch)
 {
-
-
+	/*
+	assert(count == 0);
+	count = 1;
+	*tasks = ch;
+	*/
+	*tasks[count] = ch;
+	count++;
 }
 
 // Implement Bounded Buffer get() here
+//Referenced from "Three Easy Pieces" Figure 30.4 "The Put And Get Routines"
 char *get()
 {
-
-    return ;
+	/*
+	assert (count == 1);
+	count = 0;
+    return *tasks;
+	*/
+	count--;
+	return *tasks[0];
+	
 }
 
 // This routine continually reads the contents of the "in_dir" to look for
@@ -202,16 +217,23 @@ void *readtasks(void *arg)
                 printf("Read the command='%s'\n",buffer);
 
                 // First make a copy of the string in the buffer
-
+				char * tempCmd = malloc(sizeof(char) * MAX);
+				strcopy(tempCmd, buffer);
                 // Add this copy to the bounded buffer for processing by consumer threads...
                 // Use of locks and condition variables and call to put() routine...
+				pthread_mutex_lock(&mutex);
+				while (count == 80)
+					pthread_cond_wait(&cond, &mutex);
+				put(tempCmd);
+				pthread_mutex_unlock(&mutex);
+				free(tempCmd);
             }
 
             /* When you finish with the file, close it */
             fclose(entry_file);
         }
     }
-    // This function never returns as we continously process the "in_dir"...
+    // This function never returns as we continuously process the "in_dir"...
     return 0;
 }
 
@@ -266,17 +288,18 @@ void *dotasks(void * arg)
     // The consumer should cause the program to exit when the 'x' command is received
     while (1)
     {
-
         /***********************
         *    NOT Done Task 9   *
         ************************/
-        // TO DO
-        //
+		pthread_mutex_lock(&mutex);
         // Read command to perform from the bounded buffer HERE
-        char * task = (char *) &static_task;
+		while (count < 0)
+			pthread_cond_wait(&cond, &mutex);
+		char * task = get();
+		pthread_mutex_unlock(&mutex);
         // create matrix command example
-        sprintf(task, "c a1 20 20 100");
-
+        //sprintf(task, "c a1 20 20 100");
+		
         // display matrix command example
         //sprintf(task, "d a2 10 10 100");
         // sum matrix command example
@@ -341,7 +364,7 @@ void *dotasks(void * arg)
             case 'a':
             {
                 /******************
-                *   Task 2 Done   *  // coppied from case 's' changed sum to avg element printout
+                *   Task 2 Done   *  // copied from case 's' changed sum to avg element printout
                 *******************/
                 // TO DO
                 //
