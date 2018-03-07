@@ -223,7 +223,7 @@ void *readtasks(void *arg)
                 // Add this copy to the bounded buffer for processing by consumer threads...
                 // Use of locks and condition variables and call to put() routine...
 				pthread_mutex_lock(&mutex);
-				while (count == 80)
+				while (count == MAX)
 					pthread_cond_wait(&cond, &mutex);
 				put(tempCmd);
 				pthread_mutex_unlock(&mutex);
