@@ -117,7 +117,6 @@ char *get()
 	count = 0;
     return *tasks;
 	*/
-	count--;
 	return *tasks[0];
 	
 }
@@ -297,6 +296,7 @@ void *dotasks(void * arg)
 		while (count < 0)
 			pthread_cond_wait(&cond, &mutex);
 		char * task = get();
+		count--;
 		pthread_mutex_unlock(&mutex);
         // create matrix command example
         //sprintf(task, "c a1 20 20 100");
