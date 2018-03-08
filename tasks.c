@@ -93,9 +93,9 @@ void sleepms(int milliseconds)  // https://stackoverflow.com/questions/4184468/s
     usleep(microseconds);
 }
 
-/***********************************
-*    NOT Done PUT and GET  Task 7  *
-************************************/
+/*******************************
+*    Done PUT and GET  Task 7  *
+********************************/
 
 // Implement Bounded Buffer put() here
 void put(char *ch)
@@ -122,7 +122,7 @@ char *get()
     char *tempTask = tasks[0];
     int i;
     for (i = 0; i < t_count; i++);
-    tasks[i] = tasks[i + 1];
+        tasks[i] = tasks[i + 1];
     tasks[t_count] = NULL;
     left++;
     t_count--;
@@ -216,9 +216,9 @@ void *readtasks(void *arg)
                 printf("read form command file='%s'\n",buffer);
                 #endif
 
-                /***********************
-                *    NOT Done Task 8   *
-                ************************/
+                /*******************
+                *    Done Task 8   *
+                ********************/
                 // TO DO
                 //
                 // THE NEW COMMAND WILL BE IN "buffer"
@@ -301,9 +301,9 @@ void *dotasks(void * arg)
     // The consumer should cause the program to exit when the 'x' command is received
     while (1)
     {
-        /***********************
-        *    NOT Done Task 9   *
-        ************************/
+        /*******************
+        *    Done Task 9   *
+        ********************/
         //char * task = (char *) &static_task;
 		pthread_mutex_lock(&mutex);
         // Read command to perform from the bounded buffer HERE
