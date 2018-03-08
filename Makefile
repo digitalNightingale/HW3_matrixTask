@@ -5,7 +5,7 @@ binaries=pcMatrix
 
 all: $(binaries)
 
-pcMatrix: matrix.c pcMatrix.c tasks.c
+pcMatrix: matrix.c pcmatrix.c tasks.c
 	$(CC) $(CFLAGS) $^ -o $@
 
 clean:

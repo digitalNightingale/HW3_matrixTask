@@ -54,7 +54,7 @@ char * tasks[MAX];
 ********************/
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
-static int count = 0;
+static int t_count = 0;
 static int left = MAX;
 
 // task data structure
@@ -105,9 +105,9 @@ void put(char *ch)
 	count = 1;
 	*tasks = ch;
 	*/
-	tasks[count] = ch;
+	tasks[t_count] = ch;
     left--;
-	count++;
+	t_count++;
 }
 
 // Implement Bounded Buffer get() here
@@ -121,11 +121,11 @@ char *get()
 	*/
     char *tempTask = tasks[0];
     int i;
-    for (i = 0; i < count; i++);
+    for (i = 0; i < t_count; i++);
     tasks[i] = tasks[i + 1];
-    tasks[count] = NULL;
+    tasks[t_count] = NULL;
     left++;
-    count--;
+    t_count--;
 	return tempTask;
 }
 
@@ -234,7 +234,7 @@ void *readtasks(void *arg)
                 // Add this copy to the bounded buffer for processing by consumer threads...
                 // Use of locks and condition variables and call to put() routine...
 				pthread_mutex_lock(&mutex);
-				while (count == MAX)
+				while (left == 0)
 					pthread_cond_wait(&cond, &mutex);
 				put(tempCmd);
                 pthread_cond_signal(&cond);
@@ -304,12 +304,12 @@ void *dotasks(void * arg)
         /***********************
         *    NOT Done Task 9   *
         ************************/
-        char * task = (char *) &static_task;
+        //char * task = (char *) &static_task;
 		pthread_mutex_lock(&mutex);
         // Read command to perform from the bounded buffer HERE
-		while (count == 0)
+		while (t_count == 0)
 			pthread_cond_wait(&cond, &mutex);
-        task = get();
+        char * task = get();
 	    pthread_cond_signal(&cond);
 		pthread_mutex_unlock(&mutex);
         // create matrix command example
