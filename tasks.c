@@ -43,7 +43,7 @@
 
 // MAX should defined the size of the bounded buffer
 #define MAX 200
-#define OUTPUT 1
+#define OUTPUT 1 // changed from 0 to print to the file
 
 // Define bounded buffer here - use static size of MAX
 char * tasks[MAX];
@@ -52,9 +52,10 @@ char * tasks[MAX];
 /*******************
 *    Task 7 Done   *
 ********************/
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
-int count = 0;
+static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+static int count = 0;
+static int left = MAX;
 
 // task data structure
 // used to capture command information
@@ -104,7 +105,8 @@ void put(char *ch)
 	count = 1;
 	*tasks = ch;
 	*/
-	*tasks[count] = ch;
+	tasks[count] = ch;
+    left--;
 	count++;
 }
 
@@ -117,8 +119,14 @@ char *get()
 	count = 0;
     return *tasks;
 	*/
-	return *tasks[0];
-	
+    char *tempTask = tasks[0];
+    int i;
+    for (i = 0; i < count; i++);
+    tasks[i] = tasks[i + 1];
+    tasks[count] = NULL;
+    left++;
+    count--;
+	return tempTask;
 }
 
 // This routine continually reads the contents of the "in_dir" to look for
@@ -217,16 +225,21 @@ void *readtasks(void *arg)
                 printf("Read the command='%s'\n",buffer);
 
                 // First make a copy of the string in the buffer
-				char * tempCmd = malloc(sizeof(char) * MAX);
-				strcpy(tempCmd, buffer);
+				// char * tempCmd = malloc(sizeof(char) * MAX);
+				// strcpy(tempCmd, buffer);
+
+                char * tempCmd = calloc(sizeof(char), strlen(buffer) + 1);
+                strcpy(tempCmd, buffer);
+
                 // Add this copy to the bounded buffer for processing by consumer threads...
                 // Use of locks and condition variables and call to put() routine...
 				pthread_mutex_lock(&mutex);
 				while (count == MAX)
 					pthread_cond_wait(&cond, &mutex);
 				put(tempCmd);
+                pthread_cond_signal(&cond);
 				pthread_mutex_unlock(&mutex);
-				free(tempCmd);
+				//free(tempCmd);
             }
 
             /* When you finish with the file, close it */
@@ -291,16 +304,17 @@ void *dotasks(void * arg)
         /***********************
         *    NOT Done Task 9   *
         ************************/
+        char * task = (char *) &static_task;
 		pthread_mutex_lock(&mutex);
         // Read command to perform from the bounded buffer HERE
-		while (count < 0)
+		while (count == 0)
 			pthread_cond_wait(&cond, &mutex);
-		char * task = get();
-		count--;
+        task = get();
+	    pthread_cond_signal(&cond);
 		pthread_mutex_unlock(&mutex);
         // create matrix command example
         //sprintf(task, "c a1 20 20 100");
-		
+
         // display matrix command example
         //sprintf(task, "d a2 10 10 100");
         // sum matrix command example

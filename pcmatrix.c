@@ -25,7 +25,7 @@
 #include <time.h>
 #include "matrix.h"
 #include "tasks.h"
-#include "pcMatrix.h"
+#include "pcmatrix.h"
 
 int main (int argc, char * argv[])
 {
